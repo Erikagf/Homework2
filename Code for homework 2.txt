@@ -1,0 +1,46 @@
+Sub ticker_total()
+
+Dim ticker As String
+Dim vol As Double
+
+vol = 0
+
+'following the cc activity in class, for keeping track of ticker names
+Dim Summary_Table_Row As Integer
+Summary_Table_Row = 2
+
+For Each ws In Worksheets
+
+ws.Cells(1, 9).Value = "Ticker"
+ws.Cells(1, 10).Value = "Total Stock Volume"
+
+'VBA UsedRange is a worksheet Property,it returns the area Range bounded by first used cell and last used cell.
+
+For i = 2 To ws.UsedRange.Rows.Count
+
+'for the different ticker identifiers and if not
+If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
+ticker = ws.Cells(i, 1).Value
+
+vol = vol + ws.Cells(i, 7).Value
+
+ws.Range("I" & Summary_Table_Row).Value = ticker
+ws.Range("J" & Summary_Table_Row).Value = vol
+
+Summary_Table_Row = Summary_Table_Row + 1
+
+vol = 0
+
+Else
+
+vol = vol + ws.Cells(i, 7).Value
+
+End If
+Next i
+
+
+Next ws
+
+
+
+End Sub
